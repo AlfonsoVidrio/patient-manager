@@ -2,13 +2,33 @@ import { useForm } from 'react-hook-form'
 import { Error } from './Error'
 import type { DraftPatient } from '../types'
 import { usePatientStore } from '../store'
+import { useEffect } from 'react'
 
 export const PatientsForm = () => {
     const addPatient = usePatientStore(state => state.addPatient)
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<DraftPatient>()
+    const updatePatient = usePatientStore(state => state.updatePatient)
+    const activeId = usePatientStore(state => state.activeId)
+    const patients = usePatientStore(state => state.patients)
+
+    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<DraftPatient>()
+
+    useEffect(() => {
+        if (activeId) {
+            const activePatient = patients.filter(patient => patient.id === activeId)[0]
+            setValue("name", activePatient.name)
+            setValue("caretaker", activePatient.caretaker)
+            setValue("date", activePatient.date)
+            setValue("email", activePatient.email)
+            setValue("symptoms", activePatient.symptoms)
+        }
+    }, [activeId])
 
     const registerPatient = (data: DraftPatient) => {
-        addPatient(data)
+        if (activeId) {
+            updatePatient(data)
+        } else {
+            addPatient(data)
+        }
         reset()
     }
 
@@ -16,7 +36,7 @@ export const PatientsForm = () => {
         <div className="md:w-1/2 lg:w-2/5 mx-auto md:mx-0 mb-8 md:mb-0">
             <div className="bg-white rounded-lg border border-slate-200 p-6 md:p-8">
                 <div className="mb-8">
-                    <h2 className="font-semibold text-xl text-slate-800">Register Patient</h2>
+                    <h2 className="font-semibold text-xl text-slate-800">Register Patient {activeId}</h2>
                     <p className="text-sm text-slate-500 mt-1">
                         Fill in the patient's information below
                     </p>
