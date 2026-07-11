@@ -5,29 +5,21 @@ export const PatientsList = () => {
   const patients = usePatientStore(state => state.patients)
 
   return (
-    <div className="md:w-1/2 lg:w-3/5 md:h-screen overflow-y-scroll">
+    <div className="md:w-1/2 lg:w-3/5 md:max-h-[calc(100vh-16rem)] md:overflow-y-auto">
       {patients.length ? (
-        <>
-          <h2 className="font-black text-3xl text-center">Patients</h2>
-          <p className="text-xl mt-5 mb-10 text-center">
-            Manage your {" "}
-            <span className="text-blue-600 font-bold">patients and appointments</span>
-          </p>
+        <div className="space-y-5">
           {patients.map(patient => (
             <PatientDetails
               key={patient.id}
               patient={patient}
             />
           ))}
-        </>
+        </div>
       ) : (
-        <>
-          <h2 className="font-black text-3xl text-center">No patients found</h2>
-          <p className="text-xl mt-5 mb-10 text-center">
-            Start by adding patients  {" "}
-            <span className="text-blue-600 font-bold">and they will appear here</span>
-          </p>
-        </>
+        <div className="bg-white rounded-lg border border-slate-200 p-6 md:p-8 text-center">
+          <p className="text-sm text-slate-500">No patients registered yet.</p>
+          <p className="text-sm text-slate-500 mt-1">Add one from the form and it will appear here.</p>
+        </div>
       )}
     </div>
   )
