@@ -2,7 +2,7 @@
 
 Patient management app for veterinary clinics built with React and TypeScript.
 
-<img width="1920" alt="screenshot" src="./public/screenshot.png" />
+<img width="1920" height="994" alt="screencapture" src="https://github.com/user-attachments/assets/bd49e829-a1d1-432a-ac20-0eab38290072" />
 
 ## Features
 
